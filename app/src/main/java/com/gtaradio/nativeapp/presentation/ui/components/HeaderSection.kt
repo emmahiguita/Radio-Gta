@@ -80,19 +80,20 @@ fun HeaderSection(errorMessage: String?) {
                     Text(
                         text = "GTA RADIO",
                         fontWeight = FontWeight.ExtraBold,
-                        fontSize = 23.sp,
+                        fontSize = 20.sp,
                         color = GtaColors.Gold,
-                        letterSpacing = 2.sp
+                        letterSpacing = 1.5.sp,
+                        maxLines = 1
                     )
-                    Spacer(modifier = Modifier.width(8.dp))
+                    Spacer(modifier = Modifier.width(6.dp))
                     Box(
                         modifier = Modifier
-                            .background(Color(0xFF1E2B22), RoundedCornerShape(5.dp))
-                            .padding(horizontal = 7.dp, vertical = 3.dp)
+                            .background(Color(0xFF1E2B22), RoundedCornerShape(4.dp))
+                            .padding(horizontal = 6.dp, vertical = 2.dp)
                     ) {
                         Text(
                             text = "● LIVE",
-                            fontSize = 9.sp,
+                            fontSize = 8.sp,
                             fontWeight = FontWeight.Bold,
                             color = GtaColors.OfflineGreen,
                             maxLines = 1
@@ -102,28 +103,22 @@ fun HeaderSection(errorMessage: String?) {
 
                 Text(
                     text = "5 GENERACIONES • EN VIVO & OFFLINE",
-                    fontSize = 10.sp,
+                    fontSize = 9.sp,
                     fontWeight = FontWeight.SemiBold,
                     color = GtaColors.TextMuted,
-                    letterSpacing = 0.4.sp,
                     maxLines = 1
                 )
 
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
+                Text(
+                    text = "github.com/emmahiguita/Radio-Gta",
+                    fontSize = 9.5.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = GtaColors.GoldDark,
+                    maxLines = 1,
                     modifier = Modifier
-                        .padding(top = 3.dp)
+                        .padding(top = 2.dp)
                         .clickable { showGitDialog = true }
-                ) {
-                    Text(
-                        text = "git: github.com/emmahiguita/Radio-Gta",
-                        fontSize = 10.sp,
-                        fontWeight = FontWeight.Medium,
-                        color = GtaColors.GoldDark,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                }
+                )
             }
 
             Spacer(modifier = Modifier.width(8.dp))
