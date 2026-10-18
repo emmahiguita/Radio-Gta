@@ -8,11 +8,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,20 +21,19 @@ import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.vector.PathParser
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.gtaradio.nativeapp.presentation.ui.theme.GtaColors
 
 private const val GITHUB_REPO_URL = "https://github.com/emmahiguita/Radio-Gta"
-private const val GITHUB_PROFILE_URL = "https://github.com/emmahiguita"
+private const val FACEBOOK_URL = "https://www.facebook.com/Devemmai/"
 
 /**
- * Icono vectorial oficial de GitHub (Octocat) dibujado en Compose Canvas (24x24 viewport).
+ * Icono vectorial de GitHub (Octocat) en Compose Canvas (24x24 viewport).
  */
 @Composable
 fun GitHubOctocatIcon(
-    modifier: Modifier = Modifier.size(16.dp),
+    modifier: Modifier = Modifier.size(18.dp),
     tint: Color = Color.White
 ) {
     val octocatPath = remember {
@@ -56,19 +53,41 @@ fun GitHubOctocatIcon(
 }
 
 /**
- * Cabecera principal con branding auténtico, acceso directo a GitHub (@emmahiguita) e información del repositorio.
+ * Icono vectorial de Facebook en Compose Canvas (24x24 viewport).
+ */
+@Composable
+fun FacebookIcon(
+    modifier: Modifier = Modifier.size(18.dp),
+    tint: Color = Color.White
+) {
+    val fbPath = remember {
+        PathParser().parsePathString(
+            "M12 2.04C6.5 2.04 2 6.53 2 12.06C2 17.06 5.66 21.21 10.44 21.96V14.96H7.9V12.06H10.44V9.85C10.44 7.34 11.93 5.96 14.22 5.96C15.31 5.96 16.45 6.15 16.45 6.15V8.62H15.19C13.95 8.62 13.56 9.39 13.56 10.18V12.06H16.34L15.89 14.96H13.56V21.96A10 10 0 0 0 22 12.06C22 6.53 17.5 2.04 12 2.04Z"
+        ).toPath()
+    }
+
+    Canvas(modifier = modifier) {
+        val scaleFactor = size.minDimension / 24f
+        scale(scale = scaleFactor, pivot = androidx.compose.ui.geometry.Offset.Zero) {
+            drawPath(path = fbPath, color = tint)
+        }
+    }
+}
+
+/**
+ * Cabecera principal limpia y minimalista con un único icono discreto para redes/Git.
  * Principio SOLID: Responsabilidad Única (SRP).
  */
 @Composable
 fun HeaderSection(errorMessage: String?) {
     val uriHandler = LocalUriHandler.current
-    var showGitDialog by remember { mutableStateOf(false) }
+    var showLinksModal by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .background(GtaColors.Surface)
-            .padding(horizontal = 16.dp, vertical = 12.dp)
+            .padding(horizontal = 20.dp, vertical = 14.dp)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -76,112 +95,40 @@ fun HeaderSection(errorMessage: String?) {
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(modifier = Modifier.weight(1f)) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(
-                        text = "GTA RADIO",
-                        fontWeight = FontWeight.ExtraBold,
-                        fontSize = 20.sp,
-                        color = GtaColors.Gold,
-                        letterSpacing = 1.5.sp,
-                        maxLines = 1
-                    )
-                    Spacer(modifier = Modifier.width(6.dp))
-                    Box(
-                        modifier = Modifier
-                            .background(Color(0xFF1E2B22), RoundedCornerShape(4.dp))
-                            .padding(horizontal = 6.dp, vertical = 2.dp)
-                    ) {
-                        Text(
-                            text = "● LIVE",
-                            fontSize = 8.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = GtaColors.OfflineGreen,
-                            maxLines = 1
-                        )
-                    }
-                }
-
+                Text(
+                    text = "GTA RADIO",
+                    fontWeight = FontWeight.ExtraBold,
+                    fontSize = 24.sp,
+                    color = GtaColors.Gold,
+                    letterSpacing = 2.sp
+                )
                 Text(
                     text = "5 GENERACIONES • EN VIVO & OFFLINE",
-                    fontSize = 9.sp,
+                    fontSize = 10.sp,
                     fontWeight = FontWeight.SemiBold,
                     color = GtaColors.TextMuted,
+                    letterSpacing = 0.4.sp,
                     maxLines = 1
-                )
-
-                Text(
-                    text = "github.com/emmahiguita/Radio-Gta",
-                    fontSize = 9.5.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = GtaColors.GoldDark,
-                    maxLines = 1,
-                    modifier = Modifier
-                        .padding(top = 2.dp)
-                        .clickable { showGitDialog = true }
                 )
             }
 
-            Spacer(modifier = Modifier.width(8.dp))
+            Spacer(modifier = Modifier.width(12.dp))
 
-            // Botón con icono de GitHub que redirige al repositorio de @emmahiguita + botón de info Git
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(6.dp)
+            // Un único icono discreto que abre los enlaces del desarrollador (GitHub + Facebook) sin estorbar el diseño
+            Surface(
+                modifier = Modifier
+                    .size(36.dp)
+                    .clip(CircleShape)
+                    .clickable { showLinksModal = true },
+                color = Color(0xFF222222),
+                border = BorderStroke(1.dp, Color(0xFF3A3A3A)),
+                shape = CircleShape
             ) {
-                Surface(
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(8.dp))
-                        .clickable { uriHandler.openUri(GITHUB_REPO_URL) },
-                    color = Color(0xFF24292E),
-                    border = BorderStroke(1.dp, GtaColors.Gold),
-                    shape = RoundedCornerShape(8.dp)
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 7.dp)
-                    ) {
-                        GitHubOctocatIcon(
-                            modifier = Modifier.size(16.dp),
-                            tint = GtaColors.Gold
-                        )
-                        Spacer(modifier = Modifier.width(6.dp))
-                        Column {
-                            Text(
-                                text = "GitHub",
-                                fontSize = 11.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = Color.White,
-                                maxLines = 1
-                            )
-                            Text(
-                                text = "@emmahiguita",
-                                fontSize = 9.sp,
-                                fontWeight = FontWeight.SemiBold,
-                                color = GtaColors.Gold,
-                                maxLines = 1
-                            )
-                        }
-                    }
-                }
-
-                // Botón circular de información del repositorio Git
-                Surface(
-                    modifier = Modifier
-                        .size(32.dp)
-                        .clip(CircleShape)
-                        .clickable { showGitDialog = true },
-                    color = Color(0xFF24292E),
-                    border = BorderStroke(1.dp, Color(0xFF444444)),
-                    shape = CircleShape
-                ) {
-                    Box(contentAlignment = Alignment.Center) {
-                        Text(
-                            text = "ⓘ",
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = GtaColors.Gold
-                        )
-                    }
+                Box(contentAlignment = Alignment.Center) {
+                    GitHubOctocatIcon(
+                        modifier = Modifier.size(18.dp),
+                        tint = GtaColors.Gold
+                    )
                 }
             }
         }
@@ -197,55 +144,77 @@ fun HeaderSection(errorMessage: String?) {
         }
     }
 
-    if (showGitDialog) {
+    if (showLinksModal) {
         AlertDialog(
-            onDismissRequest = { showGitDialog = false },
+            onDismissRequest = { showLinksModal = false },
             containerColor = Color(0xFF1A1A1A),
             titleContentColor = GtaColors.Gold,
             textContentColor = Color.White,
             title = {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    GitHubOctocatIcon(modifier = Modifier.size(22.dp), tint = GtaColors.Gold)
-                    Spacer(modifier = Modifier.width(10.dp))
-                    Text(
-                        text = "Información de Git & Autor",
-                        fontWeight = FontWeight.ExtraBold,
-                        fontSize = 18.sp
-                    )
-                }
+                Text(
+                    text = "Devemmai • Enlaces Oficiales",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 17.sp
+                )
             },
             text = {
-                Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                    Text("• Proyecto: GTA Radio (Android Nativo)", fontSize = 13.sp, fontWeight = FontWeight.SemiBold)
-                    Text("• Autor: Emmanuel Higuita (@emmahiguita)", fontSize = 13.sp, color = GtaColors.Gold)
-                    Text("• Repositorio: github.com/emmahiguita/Radio-Gta", fontSize = 12.sp, color = Color(0xFFCCCCCC))
-                    Text("• Rama: main (Clean Architecture & SOLID)", fontSize = 12.sp, color = Color(0xFFCCCCCC))
-                    Text("• Emisoras: 64 estaciones originales completas (GTA III, Vice City, San Andreas, GTA IV y GTA V)", fontSize = 12.sp, color = Color(0xFFAAAAAA))
+                Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                    // Opción 1: GitHub
+                    Surface(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(10.dp))
+                            .clickable {
+                                showLinksModal = false
+                                uriHandler.openUri(GITHUB_REPO_URL)
+                            },
+                        color = Color(0xFF24292E),
+                        border = BorderStroke(1.dp, GtaColors.Gold),
+                        shape = RoundedCornerShape(10.dp)
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.padding(horizontal = 14.dp, vertical = 12.dp)
+                        ) {
+                            GitHubOctocatIcon(modifier = Modifier.size(20.dp), tint = GtaColors.Gold)
+                            Spacer(modifier = Modifier.width(12.dp))
+                            Column {
+                                Text("GitHub (@emmahiguita)", fontWeight = FontWeight.Bold, fontSize = 14.sp, color = Color.White)
+                                Text("github.com/emmahiguita/Radio-Gta", fontSize = 11.sp, color = Color(0xFFBBBBBB))
+                            }
+                        }
+                    }
+
+                    // Opción 2: Facebook
+                    Surface(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(10.dp))
+                            .clickable {
+                                showLinksModal = false
+                                uriHandler.openUri(FACEBOOK_URL)
+                            },
+                        color = Color(0xFF1B263B),
+                        border = BorderStroke(1.dp, Color(0xFF1877F2)),
+                        shape = RoundedCornerShape(10.dp)
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.padding(horizontal = 14.dp, vertical = 12.dp)
+                        ) {
+                            FacebookIcon(modifier = Modifier.size(20.dp), tint = Color(0xFF1877F2))
+                            Spacer(modifier = Modifier.width(12.dp))
+                            Column {
+                                Text("Facebook (Devemmai)", fontWeight = FontWeight.Bold, fontSize = 14.sp, color = Color.White)
+                                Text("facebook.com/Devemmai", fontSize = 11.sp, color = Color(0xFFBBBBBB))
+                            }
+                        }
+                    }
                 }
             },
             confirmButton = {
-                Button(
-                    onClick = {
-                        showGitDialog = false
-                        uriHandler.openUri(GITHUB_REPO_URL)
-                    },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = GtaColors.Gold,
-                        contentColor = Color.Black
-                    )
-                ) {
-                    Text("Abrir Repo en GitHub", fontWeight = FontWeight.Bold)
-                }
-            },
-            dismissButton = {
-                OutlinedButton(
-                    onClick = {
-                        showGitDialog = false
-                        uriHandler.openUri(GITHUB_PROFILE_URL)
-                    },
-                    border = BorderStroke(1.dp, GtaColors.Gold)
-                ) {
-                    Text("Perfil @emmahiguita", color = GtaColors.Gold)
+                TextButton(onClick = { showLinksModal = false }) {
+                    Text("Cerrar", color = GtaColors.Gold)
                 }
             }
         )
