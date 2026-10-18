@@ -30,7 +30,7 @@ fun HeaderSection(errorMessage: String?) {
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Column {
+            Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = "GTA RADIO",
                     fontWeight = FontWeight.ExtraBold,
@@ -39,24 +39,28 @@ fun HeaderSection(errorMessage: String?) {
                     letterSpacing = 2.sp
                 )
                 Text(
-                    text = "5 GENERACIONES • NATIVO & OFFLINE",
-                    fontSize = 11.sp,
+                    text = "5 GENERACIONES • EN VIVO & OFFLINE",
+                    fontSize = 10.sp,
                     fontWeight = FontWeight.SemiBold,
                     color = GtaColors.TextMuted,
-                    letterSpacing = 1.sp
+                    letterSpacing = 0.4.sp,
+                    maxLines = 1
                 )
             }
 
+            Spacer(modifier = Modifier.width(12.dp))
+
             Box(
                 modifier = Modifier
-                    .background(Color(0xFF222222), RoundedCornerShape(6.dp))
-                    .padding(horizontal = 10.dp, vertical = 4.dp)
+                    .background(Color(0xFF1E2B22), RoundedCornerShape(6.dp))
+                    .padding(horizontal = 10.dp, vertical = 5.dp)
             ) {
                 Text(
-                    text = "OFFLINE READY",
+                    text = "● LIVE STREAM",
                     fontSize = 10.sp,
                     fontWeight = FontWeight.Bold,
-                    color = GtaColors.OfflineGreen
+                    color = GtaColors.OfflineGreen,
+                    maxLines = 1
                 )
             }
         }

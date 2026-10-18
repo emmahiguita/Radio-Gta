@@ -121,30 +121,33 @@
 
   <div class="player-banner">
     <div>
-      <h2 id="currentName">Flash FM (Muestra Local en Disco)</h2>
+      <h2 id="currentName">Flash FM (Emisora Completa Original)</h2>
       <div class="subtitle" id="currentMeta">GTA Vice City · Pop / 80s Hits (DJ Toni)</div>
     </div>
     <!-- Reproductor nativo visible con barra de progreso y volumen -->
-    <audio id="nativeAudio" controls autoplay src="../FlashFM_sample.mp3"></audio>
+    <audio id="nativeAudio" controls autoplay src="https://archive.org/download/gtavcrs/Flash%20FM.mp3"></audio>
   </div>
 
   <main id="stationsList"></main>
 
   <script>
     const STATIONS = [
-      { id: "local_flash", name: "⭐ Flash FM (Muestra Local Instantanea)", gameTitle: "GTA Vice City", genre: "Pop 80s · En tu disco duro (Sin esperas)", url: "../FlashFM_sample.mp3" },
-      { id: "flash_fm", name: "Flash FM (Emisora Completa)", gameTitle: "GTA Vice City", genre: "Pop 80s · 86 MB", url: "https://dn721606.ca.archive.org/0/items/flash-fm-gta-vice-city_202212/Flash%20FM%20-%20GTA%20Vice%20City.mp3" },
-      { id: "kdst", name: "K-DST", gameTitle: "GTA San Andreas", genre: "Classic Rock (Tommy Smith) · 96 MB", url: "https://archive.org/download/radio-k-dst-gta-san-andreas-no-ads-all-tracks-mp-3-320-k/%F0%9F%8E%B6%20Radio%20K%20DST%20(GTA%20San%20Andreas)%20(NO%20ADS)%20(All%20Tracks)(MP3_320K).mp3" },
-      { id: "radio_los_santos", name: "Radio Los Santos", gameTitle: "GTA San Andreas", genre: "Hip-Hop / Rap (Julio G) · 92 MB", url: "https://archive.org/download/radio-los-santos-gta-san-andreas-no-ads-all-tracks/Radio%20Los%20Santos%20(GTA%20San%20Andreas)%20(NO%20ADS)%20(All%20Tracks).mp3" },
-      { id: "vladivostok", name: "Vladivostok FM", gameTitle: "GTA IV", genre: "Eastern European Dance (Ruslana) · 216 MB", url: "https://archive.org/download/gta-iv-radio/Vladivostok%20FM.mp3" },
-      { id: "liberty_rock", name: "Liberty Rock Radio", gameTitle: "GTA IV", genre: "Classic Rock (Iggy Pop) · 390 MB", url: "https://archive.org/download/gta-iv-radio/Liberty%20Rock%20Radio.mp3" }
+      { id: "head_radio", name: "Head Radio", gameTitle: "GTA III", genre: "Soft Rock / Pop (Michael Hunt)", url: "https://archive.org/download/gta3rs/Head%20Radio.mp3" },
+      { id: "flash_fm", name: "Flash FM", gameTitle: "GTA Vice City", genre: "Pop 80s (DJ Toni)", url: "https://archive.org/download/gtavcrs/Flash%20FM.mp3" },
+      { id: "vrock", name: "V-Rock", gameTitle: "GTA Vice City", genre: "Heavy Metal / Hard Rock (Lazlow)", url: "https://archive.org/download/gtavcrs/V-Rock.mp3" },
+      { id: "kdst", name: "K-DST", gameTitle: "GTA San Andreas", genre: "Classic Rock (Tommy 'The Nightmare' Smith)", url: "https://archive.org/download/gtasars/K-DST.mp3" },
+      { id: "radio_los_santos", name: "Radio Los Santos", gameTitle: "GTA San Andreas", genre: "West Coast Hip-Hop (Julio G)", url: "https://archive.org/download/gtasars/Radio%20Los%20Santos.mp3" },
+      { id: "vladivostok", name: "Vladivostok FM", gameTitle: "GTA IV", genre: "Eastern European Dance (Ruslana)", url: "https://archive.org/download/gta-iv-radio/Vladivostok%20FM.mp3" },
+      { id: "liberty_rock", name: "Liberty Rock Radio", gameTitle: "GTA IV", genre: "Classic Rock (Iggy Pop)", url: "https://archive.org/download/gta-iv-radio/Liberty%20Rock%20Radio.mp3" },
+      { id: "los_santos_rock", name: "Los Santos Rock Radio", gameTitle: "GTA V", genre: "Classic Rock (Kenny Loggins)", url: "https://archive.org/download/gtaradio-audio-collection/los_santos_rock_radio.mp3" },
+      { id: "non_stop_pop", name: "Non-Stop-Pop FM", gameTitle: "GTA V", genre: "Pop / Dance (Cara Delevingne)", url: "https://archive.org/download/gtaradio-audio-collection/non-stop-pop_fm.mp3" }
     ];
 
     const audio = document.getElementById("nativeAudio");
     const currentName = document.getElementById("currentName");
     const currentMeta = document.getElementById("currentMeta");
     const stationsList = document.getElementById("stationsList");
-    let currentId = "local_flash";
+    let currentId = "flash_fm";
 
     audio.volume = 1.0;
 

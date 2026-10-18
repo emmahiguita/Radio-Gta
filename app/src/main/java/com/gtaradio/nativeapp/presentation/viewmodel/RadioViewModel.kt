@@ -10,10 +10,12 @@ import com.gtaradio.nativeapp.domain.model.Station
 import com.gtaradio.nativeapp.domain.radio.RadioClock
 import com.gtaradio.nativeapp.domain.usecase.GetStationsUseCase
 import com.gtaradio.nativeapp.playback.PlaybackConnection
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * ViewModel principal para GTA Radio.
@@ -27,6 +29,7 @@ class RadioViewModel(application: Application) : AndroidViewModel(application) {
     private val radioClock = RadioClock()
 
     private val allStationsCache = mutableListOf<Station>()
+    private val _offlineStationIds = MutableStateFlow<Set<String>>(emptySet())
 
     val playbackConnection = PlaybackConnection(application) { id ->
         allStationsCache.firstOrNull { it.id == id }
@@ -82,57 +85,108 @@ class RadioViewModel(application: Application) : AndroidViewModel(application) {
     init {
         playbackConnection.connect()
         viewModelScope.launch {
-            repository.getAllStations().collect {
+            repository.getAllStations().collect { stations ->
                 allStationsCache.clear()
-                allStationsCache.addAll(it)
+                allStationsCache.addAll(stations)
+                val offlineIds = withContext(Dispatchers.IO) {
+                    stations.filter { repository.isStationOfflineReady(it) }.map { it.id }.toSet()
+                }
+                _offlineStationIds.value = offlineIds
             }
         }
-        // Actualizar progreso cada segundo para la barra de reproducción
+        // Actualizar progreso y pista en curso cada segundo según posición real de ExoPlayer
         viewModelScope.launch {
             while (true) {
                 delay(1000)
                 val pos = playbackConnection.currentPositionMs()
                 val dur = playbackConnection.durationMs()
-                if (dur > 0) _progress.value = (pos.toFloat() / dur).coerceIn(0f, 1f)
+                if (dur > 0L) {
+                    _progress.value = (pos.toFloat() / dur).coerceIn(0f, 1f)
+                    val totalTracks = uiState.value.activeStation?.tracklist?.size ?: 0
+                    if (totalTracks > 0) {
+                        _currentTrackIndex.value = radioClock.trackIndexForPosition(pos, dur, totalTracks)
+                    }
+                }
             }
         }
     }
 
     fun setGameFilter(game: Game?) { _selectedFilter.value = game }
 
-    fun onStationClick(station: Station) {
-        if (uiState.value.activeStation?.id == station.id) {
-            playbackConnection.togglePlayPause()
-        } else {
-            // Calcular posición basada en el reloj del sistema (comportamiento GTA)
-            val (startIndex, startPositionMs) = radioClock.computeStartPosition(station.tracklist)
-            _currentTrackIndex.value = startIndex
-            val resolvedUri = repository.resolvePlaybackUri(station)
-            playbackConnection.playStation(station, resolvedUri, startPositionMs)
+    /** Permite sintonizar una emisora o filtrar por generación directamente desde un Intent o acceso directo. */
+    fun handleDeepLink(gameFilterName: String?, stationId: String?) {
+        if (!gameFilterName.isNullOrBlank()) {
+            val matchedGame = Game.entries.firstOrNull {
+                it.name.equals(gameFilterName, ignoreCase = true) ||
+                    it.shortName.equals(gameFilterName, ignoreCase = true)
+            }
+            _selectedFilter.value = matchedGame
+        }
+        if (!stationId.isNullOrBlank()) {
+            viewModelScope.launch {
+                val stations = allStationsCache.ifEmpty { repository.getAllStations().first() }
+                val station = stations.firstOrNull { it.id == stationId }
+                if (station != null && uiState.value.activeStation?.id != station.id) {
+                    onStationClick(station)
+                }
+            }
         }
     }
 
-    /** Salta a la siguiente canción de la tracklist de la emisora activa. */
-    fun skipNext() {
-        val station = uiState.value.activeStation ?: return
-        val total = station.tracklist.size
-        if (total == 0) return
-        val next = radioClock.nextTrackIndex(_currentTrackIndex.value, total)
-        _currentTrackIndex.value = next
-        val resolvedUri = repository.resolvePlaybackUri(station)
-        // Skip desde el inicio de esa canción
-        playbackConnection.playStation(station, resolvedUri, seekToMs = 0L, trackIndex = next)
+    fun onStationClick(station: Station) {
+        _errorMessage.value = null
+        if (uiState.value.activeStation?.id == station.id) {
+            playbackConnection.togglePlayPause()
+        } else {
+            val (startIndex, _) = radioClock.computeStartPosition(station.tracklist)
+            _currentTrackIndex.value = startIndex
+            _progress.value = 0f
+            viewModelScope.launch {
+                val resolvedUri = withContext(Dispatchers.IO) {
+                    repository.resolvePlaybackUri(station)
+                }
+                playbackConnection.playStation(
+                    station = station,
+                    playbackUri = resolvedUri,
+                    trackIndex = startIndex,
+                    liveTune = true
+                )
+            }
+        }
     }
 
-    /** Salta a la canción anterior de la tracklist. */
+    /** Salta a la siguiente canción o segmento de la emisora activa sin reiniciar el stream. */
+    fun skipNext() {
+        val station = uiState.value.activeStation ?: return
+        val dur = playbackConnection.durationMs()
+        val total = station.tracklist.size
+        if (total > 0) {
+            val next = radioClock.nextTrackIndex(_currentTrackIndex.value, total)
+            _currentTrackIndex.value = next
+            if (dur > 0L) {
+                val targetMs = radioClock.seekPositionForTrack(next, total, dur)
+                playbackConnection.seekTo(targetMs)
+            }
+        } else if (dur > 0L) {
+            playbackConnection.seekTo(playbackConnection.currentPositionMs() + 180_000L)
+        }
+    }
+
+    /** Salta a la canción o segmento anterior de la emisora activa sin reiniciar el stream. */
     fun skipPrevious() {
         val station = uiState.value.activeStation ?: return
+        val dur = playbackConnection.durationMs()
         val total = station.tracklist.size
-        if (total == 0) return
-        val prev = radioClock.previousTrackIndex(_currentTrackIndex.value, total)
-        _currentTrackIndex.value = prev
-        val resolvedUri = repository.resolvePlaybackUri(station)
-        playbackConnection.playStation(station, resolvedUri, seekToMs = 0L, trackIndex = prev)
+        if (total > 0) {
+            val prev = radioClock.previousTrackIndex(_currentTrackIndex.value, total)
+            _currentTrackIndex.value = prev
+            if (dur > 0L) {
+                val targetMs = radioClock.seekPositionForTrack(prev, total, dur)
+                playbackConnection.seekTo(targetMs)
+            }
+        } else if (dur > 0L) {
+            playbackConnection.seekTo(playbackConnection.currentPositionMs() - 180_000L)
+        }
     }
 
     fun togglePlayPause() { playbackConnection.togglePlayPause() }
@@ -142,7 +196,7 @@ class RadioViewModel(application: Application) : AndroidViewModel(application) {
         _progress.value = 0f
     }
 
-    fun isStationOffline(station: Station): Boolean = repository.isStationOfflineReady(station)
+    fun isStationOffline(station: Station): Boolean = station.id in _offlineStationIds.value
 
     fun clearError() { _errorMessage.value = null }
 
@@ -151,3 +205,5 @@ class RadioViewModel(application: Application) : AndroidViewModel(application) {
         playbackConnection.disconnect()
     }
 }
+
+

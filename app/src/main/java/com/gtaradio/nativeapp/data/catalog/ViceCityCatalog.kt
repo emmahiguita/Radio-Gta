@@ -14,7 +14,7 @@ object ViceCityCatalog {
             id = "flash_fm",
             name = "Flash FM",
             game = Game.VICE_CITY,
-            audioUrl = "https://dn721606.ca.archive.org/0/items/flash-fm-gta-vice-city_202212/Flash%20FM%20-%20GTA%20Vice%20City.mp3",
+            audioUrl = "https://archive.org/download/gtavcrs/Flash%20FM.mp3",
             genre = "Pop / Synth 80s", host = "DJ Toni",
             fileAliases = listOf("flash_fm", "FLASH", "Flash FM"),
             tracklist = listOf(
@@ -37,7 +37,7 @@ object ViceCityCatalog {
             id = "wave_103",
             name = "Wave 103",
             game = Game.VICE_CITY,
-            audioUrl = "https://archive.org/download/gta-vice-city-official-soundtrack/Wave%20103.mp3",
+            audioUrl = "https://archive.org/download/gtavcrs/Wave%20103.mp3",
             genre = "New Wave / Synthpop", host = "Adam First",
             fileAliases = listOf("wave_103", "WAVE", "Wave 103"),
             tracklist = listOf(
@@ -59,7 +59,7 @@ object ViceCityCatalog {
             id = "vrock",
             name = "V-Rock",
             game = Game.VICE_CITY,
-            audioUrl = "https://archive.org/download/gta-vice-city-official-soundtrack/V-Rock.mp3",
+            audioUrl = "https://archive.org/download/gtavcrs/V-Rock.mp3",
             genre = "Heavy Metal / Hard Rock", host = "Lazlow",
             fileAliases = listOf("vrock", "VROCK", "V-Rock"),
             tracklist = listOf(
@@ -82,7 +82,7 @@ object ViceCityCatalog {
             id = "wildstyle",
             name = "Wildstyle",
             game = Game.VICE_CITY,
-            audioUrl = "https://archive.org/download/gta-vice-city-official-soundtrack/Wildstyle.mp3",
+            audioUrl = "https://archive.org/download/gtavcrs/Wildstyle.mp3",
             genre = "Old School Hip Hop / Electro", host = "Mr. Magic",
             fileAliases = listOf("wildstyle", "WILD", "Wildstyle"),
             tracklist = listOf(
@@ -102,7 +102,7 @@ object ViceCityCatalog {
             id = "emotion_983",
             name = "Emotion 98.3",
             game = Game.VICE_CITY,
-            audioUrl = "https://archive.org/download/gta-vice-city-official-soundtrack/Emotion%2098.3.mp3",
+            audioUrl = "https://archive.org/download/gtavcrs/Emotion%2098.3.mp3",
             genre = "Power Ballads / Soft Rock", host = "Fernando Martinez",
             fileAliases = listOf("emotion_983", "EMOTION", "Emotion 98.3"),
             tracklist = listOf(
@@ -123,7 +123,7 @@ object ViceCityCatalog {
             id = "fever_105",
             name = "Fever 105",
             game = Game.VICE_CITY,
-            audioUrl = "https://archive.org/download/gta-vice-city-official-soundtrack/Fever%20105.mp3",
+            audioUrl = "https://archive.org/download/gtavcrs/Fever%20105.mp3",
             genre = "Soul / Disco / R&B", host = "Oliver 'Ladykiller' Biscuit",
             fileAliases = listOf("fever_105", "FEVER", "Fever 105"),
             tracklist = listOf(
@@ -143,7 +143,7 @@ object ViceCityCatalog {
             id = "radio_espantoso",
             name = "Radio Espantoso",
             game = Game.VICE_CITY,
-            audioUrl = "https://archive.org/download/gta-vice-city-official-soundtrack/Radio%20Espantoso.mp3",
+            audioUrl = "https://archive.org/download/gtavcrs/Radio%20Espantoso.mp3",
             genre = "Latin Jazz / Salsa", host = "Pepe",
             fileAliases = listOf("radio_espantoso", "ESPANTOSO", "Radio Espantoso"),
             tracklist = listOf(
@@ -161,7 +161,7 @@ object ViceCityCatalog {
             id = "kchat",
             name = "K-Chat",
             game = Game.VICE_CITY,
-            audioUrl = "https://archive.org/download/gta-vice-city-official-soundtrack/K-Chat.mp3",
+            audioUrl = "https://archive.org/download/gtavcrs/K-Chat.mp3",
             genre = "Celebrity Talk Radio", host = "Amy Sheckenhausen",
             fileAliases = listOf("kchat", "KCHAT", "K-Chat"),
             tracklist = emptyList() // Talk radio – sin tracklist de canciones
@@ -170,7 +170,7 @@ object ViceCityCatalog {
             id = "vcpr",
             name = "VCPR",
             game = Game.VICE_CITY,
-            audioUrl = "https://archive.org/download/gta-vice-city-official-soundtrack/VCPR.mp3",
+            audioUrl = "https://archive.org/download/gtavcrs/VCPR.mp3",
             genre = "Vice City Public Radio / Talk", host = "Maurice Chavez",
             fileAliases = listOf("vcpr", "VCPR", "Vice City Public Radio"),
             tracklist = emptyList() // Talk radio – sin tracklist de canciones

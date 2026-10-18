@@ -1,6 +1,7 @@
 package com.gtaradio.nativeapp
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -26,19 +27,36 @@ class MainActivity : ComponentActivity() {
 
     private val viewModel: RadioViewModel by viewModels()
 
-    private val requestNotificationPermission =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { _ -> }
+    private val requestPermissions =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { _ -> }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val permissionsToRequest = mutableListOf<String>()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
                 != PackageManager.PERMISSION_GRANTED
             ) {
-                requestNotificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
+                permissionsToRequest.add(Manifest.permission.POST_NOTIFICATIONS)
+            }
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_AUDIO)
+                != PackageManager.PERMISSION_GRANTED
+            ) {
+                permissionsToRequest.add(Manifest.permission.READ_MEDIA_AUDIO)
+            }
+        } else {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED
+            ) {
+                permissionsToRequest.add(Manifest.permission.READ_EXTERNAL_STORAGE)
             }
         }
+        if (permissionsToRequest.isNotEmpty()) {
+            requestPermissions.launch(permissionsToRequest.toTypedArray())
+        }
+
+        handleIntent(intent)
 
         setContent {
             MaterialTheme(
@@ -54,6 +72,7 @@ class MainActivity : ComponentActivity() {
                 GtaRadioScreen(
                     stations = uiState.stations,
                     selectedGame = uiState.selectedGameFilter,
+                    activeStation = uiState.activeStation,
                     currentPlayingId = uiState.activeStation?.id,
                     isPlaying = uiState.isPlaying,
                     isBuffering = uiState.isBuffering,
@@ -71,4 +90,19 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        handleIntent(intent)
+    }
+
+    private fun handleIntent(intent: Intent?) {
+        val gameFilter = intent?.getStringExtra("game_filter")
+        val stationId = intent?.getStringExtra("station_id")
+        if (gameFilter != null || stationId != null) {
+            viewModel.handleDeepLink(gameFilter, stationId)
+        }
+    }
 }
+

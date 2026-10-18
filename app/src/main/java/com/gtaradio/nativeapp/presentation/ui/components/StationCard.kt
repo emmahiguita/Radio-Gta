@@ -79,10 +79,14 @@ fun StationCard(
                 )
 
                 station.host?.let { host ->
+                    val cleanHost = host
+                        .removePrefix("DJ ")
+                        .removePrefix("DJ:")
+                        .trim()
                     Text(
-                        text = "DJ: $host",
+                        text = "DJ: $cleanHost",
                         fontSize = 11.sp,
-                        color = Color(0xFF757575),
+                        color = Color(0xFF9E9E9E),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -95,11 +99,18 @@ fun StationCard(
             if (isPlaying) {
                 EqualizerIndicator()
             } else if (isBuffering) {
-                CircularProgressIndicator(
-                    modifier = Modifier.size(20.dp),
-                    strokeWidth = 2.dp,
-                    color = GtaColors.Gold
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                ) {
+                    Text(
+                        text = "SINTONIZANDO",
+                        fontSize = 9.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = GtaColors.Gold
+                    )
+                    EqualizerIndicator()
+                }
             } else if (isOfflineReady) {
                 Text(
                     text = "● LOCAL",

@@ -6,7 +6,7 @@ import com.gtaradio.nativeapp.domain.model.Track
 
 /**
  * Catálogo de San Andreas con tracklists reales extraídas de GTA Wiki.
- * Fuente: gta.fandom.com — todas las pistas son del juego original (1992).
+ * Fuente: gta.fandom.com — todas las pistas y emisiones son del juego original (1992).
  */
 object SanAndreasCatalog {
     val stations = listOf(
@@ -14,7 +14,7 @@ object SanAndreasCatalog {
             id = "kdst",
             name = "K-DST",
             game = Game.SAN_ANDREAS,
-            audioUrl = "https://archive.org/download/radio-k-dst-gta-san-andreas-no-ads-all-tracks-mp-3-320-k/%F0%9F%8E%B6%20Radio%20K%20DST%20(GTA%20San%20Andreas)%20(NO%20ADS)%20(All%20Tracks)(MP3_320K).mp3",
+            audioUrl = "https://archive.org/download/gtasars/K-DST.mp3",
             genre = "Classic Rock", host = "Tommy 'The Nightmare' Smith (Axl Rose)",
             fileAliases = listOf("kdst", "KDST", "K-DST"),
             tracklist = listOf(
@@ -39,7 +39,7 @@ object SanAndreasCatalog {
             id = "bounce_fm",
             name = "Bounce FM",
             game = Game.SAN_ANDREAS,
-            audioUrl = "https://archive.org/download/gta-sa-radio-full/Bounce%20FM.mp3",
+            audioUrl = "https://archive.org/download/gtasars/Bounce%20FM.mp3",
             genre = "Funk / Disco", host = "The Funktipus (George Clinton)",
             fileAliases = listOf("bounce_fm", "BOUNCE", "Bounce FM"),
             tracklist = listOf(
@@ -63,7 +63,7 @@ object SanAndreasCatalog {
             id = "radio_los_santos",
             name = "Radio Los Santos",
             game = Game.SAN_ANDREAS,
-            audioUrl = "https://archive.org/download/radio-los-santos-gta-san-andreas-no-ads-all-tracks/Radio%20Los%20Santos%20(GTA%20San%20Andreas)%20(NO%20ADS)%20(All%20Tracks).mp3",
+            audioUrl = "https://archive.org/download/gtasars/Radio%20Los%20Santos.mp3",
             genre = "West Coast Hip-Hop / Gangsta Rap", host = "Julio G",
             fileAliases = listOf("radio_los_santos", "RLS", "Radio Los Santos"),
             tracklist = listOf(
@@ -72,20 +72,20 @@ object SanAndreasCatalog {
                 Track("Dr. Dre feat. Snoop Dogg", "Nuthin' but a G Thang"),
                 Track("Ice Cube", "It Was a Good Day"),
                 Track("NWA", "Appetite for Destruction"),
-                Track("Rage Against the Machine", "Killing in the Name"),
-                Track("Mack 10", "Foe Life"),
                 Track("Cypress Hill", "How I Could Just Kill a Man"),
+                Track("Mack 10", "Foe Life"),
                 Track("WC", "The Streets"),
                 Track("Snoop Doggy Dogg", "Murder Was the Case"),
                 Track("Ice T", "O.G. Original Gangster"),
-                Track("DJ Quik", "Jus Lyke Compton")
+                Track("DJ Quik", "Jus Lyke Compton"),
+                Track("Above the Law", "Murder Rap")
             )
         ),
         Station(
             id = "sf_ur",
             name = "SF-UR",
             game = Game.SAN_ANDREAS,
-            audioUrl = "https://archive.org/download/gta-sa-radio-full/SF-UR.mp3",
+            audioUrl = "https://archive.org/download/gtasars/SF-UR.mp3",
             genre = "House / Acid House", host = "Hans Oberlander",
             fileAliases = listOf("sf_ur", "SFUR", "SF-UR"),
             tracklist = listOf(
@@ -103,19 +103,19 @@ object SanAndreasCatalog {
             id = "radio_x",
             name = "Radio X",
             game = Game.SAN_ANDREAS,
-            audioUrl = "https://archive.org/download/gta-sa-radio-full/Radio%20X.mp3",
+            audioUrl = "https://archive.org/download/gtasars/Radio%20X.mp3",
             genre = "Alternative Rock / Grunge", host = "Sage",
             fileAliases = listOf("radio_x", "RADIOX", "Radio X"),
             tracklist = listOf(
                 Track("Rage Against the Machine", "Killing in the Name"),
-                Track("Soundgarden", "Black Hole Sun"),
-                Track("Alice in Chains", "Would?"),
-                Track("Stone Temple Pilots", "Creep"),
-                Track("Screaming Trees", "Nearly Lost You"),
+                Track("Soundgarden", "Rusty Cage"),
+                Track("Alice in Chains", "Them Bones"),
+                Track("Stone Temple Pilots", "Plush"),
+                Track("Helmet", "Unsung"),
                 Track("White Zombie", "Thunderkiss '65"),
-                Track("Slayer", "South of Heaven"),
-                Track("Ozzy Osbourne", "War Pigs"),
-                Track("Primus", "My Name Is Mud"),
+                Track("Danzig", "Mother"),
+                Track("Ozzy Osbourne", "Hellraiser"),
+                Track("L7", "Pretend We're Dead"),
                 Track("Faith No More", "Midlife Crisis")
             )
         ),
@@ -123,101 +123,133 @@ object SanAndreasCatalog {
             id = "k_rose",
             name = "K-Rose",
             game = Game.SAN_ANDREAS,
-            audioUrl = "https://archive.org/download/gta-sa-radio-full/K-Rose.mp3",
+            audioUrl = "https://archive.org/download/gtasars/K-Rose.mp3",
             genre = "Classic Country", host = "Mary-Beth Maybell",
             fileAliases = listOf("k_rose", "KROSE", "K-Rose"),
             tracklist = listOf(
-                Track("Merle Haggard", "The Fightin' Side of Me"),
-                Track("Charley Pride", "Is Anybody Goin' to San Antone"),
-                Track("Willie Nelson", "Whiskey River"),
-                Track("Johnny Cash", "Get Rhythm"),
-                Track("Tammy Wynette", "Stand by Your Man"),
-                Track("Charlie Rich", "The Most Beautiful Girl"),
-                Track("Lynn Anderson", "Rose Garden"),
-                Track("Loretta Lynn", "Coal Miner's Daughter")
+                Track("Jerry Reed", "Amos Moses"),
+                Track("Conway Twitty & Loretta Lynn", "Louisiana Woman, Mississippi Man"),
+                Track("Hank Williams", "Hey Good Lookin'"),
+                Track("Juice Newton", "Queen of Hearts"),
+                Track("Statler Brothers", "New York City"),
+                Track("Asleep at the Wheel", "The Letter That Johnny Walker Read"),
+                Track("The Desert Rose Band", "One Step Forward"),
+                Track("Willie Nelson", "Crazy"),
+                Track("Patsy Cline", "Three Cigarettes in an Ashtray"),
+                Track("Statler Brothers", "Bed of Rose's"),
+                Track("Mickey Gilley", "Make the World Go Away"),
+                Track("Ed Bruce", "Mammas Don't Let Your Babies Grow Up to Be Cowboys"),
+                Track("Merle Haggard", "Always Wanting You"),
+                Track("Whitey Shafer", "All My Ex's Live in Texas"),
+                Track("Eddie Rabbitt", "I Love a Rainy Night")
             )
         ),
         Station(
             id = "playback_fm",
             name = "Playback FM",
             game = Game.SAN_ANDREAS,
-            audioUrl = "https://archive.org/download/gta-sa-radio-full/Playback%20FM.mp3",
+            audioUrl = "https://archive.org/download/gtasars/Playback%20FM.mp3",
             genre = "Classic Hip-Hop / Golden Age", host = "Forth Right MC",
             fileAliases = listOf("playback_fm", "PLAYBACK", "Playback FM"),
             tracklist = listOf(
-                Track("Public Enemy", "Rebel Without a Pause"),
+                Track("Kool G Rap & DJ Polo", "Road to the Riches"),
+                Track("Big Daddy Kane", "Warm It Up, Kane"),
+                Track("Spoonie Gee", "The Godfather"),
+                Track("Masta Ace", "Me & the Biz"),
                 Track("Slick Rick", "Children's Story"),
-                Track("Kool G Rap", "Streets of New York"),
-                Track("MC Ren", "Final Frontier"),
-                Track("Eric B. & Rakim", "Paid in Full"),
-                Track("Grandmaster Flash", "White Lines"),
-                Track("LL Cool J", "Mama Said Knock You Out"),
-                Track("Digital Underground", "The Humpty Dance"),
-                Track("EPMD", "So Whatcha Sayin'"),
-                Track("Boogie Down Productions", "South Bronx")
+                Track("Public Enemy", "Rebel Without a Pause"),
+                Track("Eric B. & Rakim", "I Know You Got Soul"),
+                Track("Rob Base & DJ E-Z Rock", "It Takes Two"),
+                Track("Gang Starr", "B.Y.S."),
+                Track("Biz Markie", "The Vapors"),
+                Track("Brand Nubian", "Brand Nubian"),
+                Track("Ultramagnetic MCs", "Critical Beatdown")
             )
         ),
         Station(
             id = "csr_1039",
             name = "CSR 103.9",
             game = Game.SAN_ANDREAS,
-            audioUrl = "https://archive.org/download/gta-sa-radio-full/CSR%20103.9.mp3",
+            audioUrl = "https://archive.org/download/gtasars/CSR%20103.9.mp3",
             genre = "New Jack Swing / 90s R&B", host = "Phillip 'PM' Michaels",
             fileAliases = listOf("csr_1039", "CSR", "CSR 103.9"),
             tracklist = listOf(
-                Track("Al Green", "Love and Happiness"),
-                Track("Anita Baker", "Sweet Love"),
-                Track("Teddy Pendergrass", "Love TKO"),
-                Track("Patti LaBelle", "If You Don't Know Me by Now"),
-                Track("Smokey Robinson", "Cruisin'"),
-                Track("Luther Vandross", "A House Is Not a Home"),
-                Track("Roberta Flack", "Feel Like Makin' Love"),
-                Track("Peabo Bryson", "Tonight I Celebrate My Love")
+                Track("SWV", "I'm So Into You"),
+                Track("Soul II Soul", "Keep On Movin'"),
+                Track("Samuelle", "So You Like What You See"),
+                Track("En Vogue", "My Lovin' (You're Never Gonna Get It)"),
+                Track("Johnny Gill", "Rub You the Right Way"),
+                Track("Ralph Tresvant", "Sensitivity"),
+                Track("Guy", "Groove Me"),
+                Track("Aaron Hall", "Don't Be Afraid"),
+                Track("Boyz II Men", "Motownphilly"),
+                Track("Bell Biv DeVoe", "Poison"),
+                Track("Today", "I Got the Feeling"),
+                Track("Wreckx-n-Effect", "New Jack Swing"),
+                Track("Bobby Brown", "On Our Own")
             )
         ),
         Station(
             id = "mastersounds",
             name = "Master Sounds 98.3",
             game = Game.SAN_ANDREAS,
-            audioUrl = "https://archive.org/download/gta-sa-radio-full/Master%20Sounds%2098.3.mp3",
+            audioUrl = "https://archive.org/download/gtasars/Master%20Sounds%2098.3.mp3",
             genre = "Rare Groove / Classic Soul", host = "Johnny 'The Love Giant' Parkinson",
             fileAliases = listOf("mastersounds", "MASTERS", "Master Sounds 98.3"),
             tracklist = listOf(
+                Track("Charles Wright & the Watts 103rd Street Rhythm Band", "Express Yourself"),
+                Track("Maceo & The Macks", "Cross the Tracks (We Better Go Back)"),
+                Track("Harlem Underground Band", "Smokin' Cheeba-Cheeba"),
+                Track("The Chakachas", "Jungle Fever"),
+                Track("Bob James", "Nautilus"),
+                Track("Booker T. & the M.G.'s", "Green Onions"),
+                Track("The Blackbyrds", "Rock Creek Park"),
+                Track("Bobby Byrd", "Hot Pants - I'm Coming, I'm Coming, I'm Coming"),
+                Track("James Brown", "Funky President (People It's Bad)"),
+                Track("Lyn Collins", "Think (About It)"),
+                Track("Maceo & The Macks", "Soul Power '74"),
                 Track("James Brown", "The Payback"),
-                Track("Sly & the Family Stone", "Thank You"),
-                Track("Parliament", "Flash Light"),
-                Track("Earth Wind & Fire", "Let's Groove"),
-                Track("Isaac Hayes", "Shaft"),
-                Track("Marvin Gaye", "I Want You"),
-                Track("Stevie Wonder", "Superstition"),
-                Track("Funkadelic", "One Nation Under a Groove")
+                Track("The JB's", "The Grunt"),
+                Track("War", "Low Rider"),
+                Track("Gloria Jones", "Tainted Love"),
+                Track("Sir Joe Quarterman & Free Soul", "(I Got) So Much Trouble in My Mind")
             )
         ),
         Station(
             id = "kjah_west",
             name = "K-JAH West",
             game = Game.SAN_ANDREAS,
-            audioUrl = "https://archive.org/download/gta-sa-radio-full/K-JAH%20West.mp3",
-            genre = "Dub / Roots Reggae", host = "Marshall Peters",
+            audioUrl = "https://archive.org/download/gtasars/K-JAH%20West.mp3",
+            genre = "Dub / Roots Reggae", host = "Marshall Peters & Johnny Lawton",
             fileAliases = listOf("kjah_west", "KJAHWEST", "K-JAH West"),
             tracklist = listOf(
-                Track("Toots and the Maytals", "Pressure Drop"),
-                Track("Desmond Dekker", "Israelites"),
-                Track("Jimmy Cliff", "The Harder They Come"),
-                Track("Bob Marley", "Roots Rock Reggae"),
-                Track("Burning Spear", "Jah No Dead"),
-                Track("Culture", "Two Sevens Clash"),
-                Track("Peter Tosh", "Legalize It")
+                Track("Black Harmony", "Don't Let It Go to Your Head"),
+                Track("Blood Sisters", "Ring My Bell"),
+                Track("Shabba Ranks", "Wicked Inna Bed"),
+                Track("Buju Banton", "Batty Rider"),
+                Track("Augustus Pablo", "King Tubby Meets the Rockers Uptown"),
+                Track("Dennis Brown", "Revolution"),
+                Track("Willi Williams", "Armagideon Time"),
+                Track("I-Roy", "Sidewalk Killer"),
+                Track("Toots & The Maytals", "Funky Kingston"),
+                Track("Dillinger", "Cocaine in My Brain"),
+                Track("The Maytals", "Pressure Drop"),
+                Track("Pliers", "Bam Bam"),
+                Track("Barrington Levy", "Here I Come"),
+                Track("Reggie Stepper", "Drum Pan Sound"),
+                Track("Black Uhuru", "Great Train Robbery"),
+                Track("Max Romeo & The Upsetters", "Chase the Devil")
             )
         ),
         Station(
             id = "wctr_sa",
             name = "WCTR",
             game = Game.SAN_ANDREAS,
-            audioUrl = "https://archive.org/download/gta-sa-radio-full/WCTR.mp3",
-            genre = "West Coast Talk Radio", host = "Various Hosts",
-            fileAliases = listOf("wctr_sa", "WCTR", "WCTR Radio"),
+            audioUrl = "https://archive.org/download/gtasars/West%20Coast%20Talk%20Radio.mp3",
+            genre = "West Coast Talk Radio", host = "Lazlow, Maurice, Derrick & Hosts",
+            fileAliases = listOf("wctr_sa", "WCTR", "WCTR Radio", "West Coast Talk Radio"),
             tracklist = emptyList()
         )
     )
 }
+

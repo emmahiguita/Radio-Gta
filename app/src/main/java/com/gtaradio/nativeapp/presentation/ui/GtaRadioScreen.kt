@@ -23,6 +23,7 @@ import com.gtaradio.nativeapp.presentation.ui.theme.GtaColors
 fun GtaRadioScreen(
     stations: List<Station>,
     selectedGame: Game?,
+    activeStation: Station?,
     currentPlayingId: String?,
     isPlaying: Boolean,
     isBuffering: Boolean,
@@ -43,11 +44,10 @@ fun GtaRadioScreen(
         contentWindowInsets = WindowInsets.safeDrawing,
         bottomBar = {
             AnimatedVisibility(
-                visible = (currentPlayingId != null),
+                visible = (activeStation != null),
                 enter = slideInVertically(initialOffsetY = { it }) + fadeIn(),
                 exit = slideOutVertically(targetOffsetY = { it }) + fadeOut()
             ) {
-                val activeStation = stations.firstOrNull { it.id == currentPlayingId }
                 if (activeStation != null) {
                     BottomPlaybackBar(
                         station = activeStation,
@@ -88,3 +88,4 @@ fun GtaRadioScreen(
         }
     }
 }
+

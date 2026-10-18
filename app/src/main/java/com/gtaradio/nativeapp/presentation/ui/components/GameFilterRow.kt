@@ -36,7 +36,7 @@ fun GameFilterRow(
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         GameFilterChip(
-            title = "Todas (60)",
+            title = "Todas (64)",
             isSelected = (selectedGame == null),
             onClick = { onGameSelect(null) }
         )

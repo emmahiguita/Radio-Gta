@@ -68,10 +68,11 @@ fun BottomPlaybackBar(
                         overflow = TextOverflow.Ellipsis
                     )
                     // Si hay tracklist, muestra artista — canción; si no, muestra género
-                    val subtitle = if (currentTrack != null)
-                        "${currentTrack.artist} — ${currentTrack.title}"
-                    else if (isBuffering) "Conectando..."
-                    else "${station.game.shortName} • ${station.genre}"
+                    val subtitle = when {
+                        currentTrack != null -> "${currentTrack.artist} — ${currentTrack.title}"
+                        isBuffering -> "Sintonizando emisión en vivo • ${station.game.shortName}"
+                        else -> "${station.game.shortName} • ${station.genre}"
+                    }
                     Text(
                         text = subtitle,
                         fontSize = 11.sp,
@@ -98,20 +99,12 @@ fun BottomPlaybackBar(
                         onClick = onTogglePlayPause,
                         modifier = Modifier.size(44.dp).clip(CircleShape).background(GtaColors.Gold)
                     ) {
-                        if (isBuffering) {
-                            CircularProgressIndicator(
-                                modifier = Modifier.size(20.dp),
-                                strokeWidth = 2.dp,
-                                color = Color.Black
-                            )
-                        } else {
-                            Text(
-                                text = if (isPlaying) "⏸" else "▶",
-                                fontSize = 18.sp,
-                                color = Color.Black,
-                                fontWeight = FontWeight.Bold
-                            )
-                        }
+                        Text(
+                            text = if (isPlaying || isBuffering) "⏸" else "▶",
+                            fontSize = 18.sp,
+                            color = Color.Black,
+                            fontWeight = FontWeight.Bold
+                        )
                     }
 
                     // Skip siguiente
