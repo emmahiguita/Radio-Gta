@@ -2,6 +2,8 @@
 
 Aplicación Android 100% nativa en Kotlin con **Jetpack Compose** y **AndroidX Media3 (`ExoPlayer` + `MediaSessionService`)**, diseñada bajo **Clean Architecture** y principios **SOLID**.
 
+### 📲 [Descargar APK Oficial (`GTA-Radio-Real.apk` — 12.2 MB)](https://github.com/emmahiguita/Radio-Gta/raw/main/GTA-Radio-Real.apk)
+
 ![GTA Radio Promo GIF](docs/publicidad/gta_radio_promo.gif)
 
 ## 📸 Capturas Reales en Dispositivo (Dentro y Fuera de la App)
